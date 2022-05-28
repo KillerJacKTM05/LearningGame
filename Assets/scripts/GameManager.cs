@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
 
 
     public bool gameStart = false;
+    public bool questionDisplayed = false;
+    public bool timeIsUp = false;
     private void OnGUI()
     {
         Cursor.lockState = CursorLockMode.None;

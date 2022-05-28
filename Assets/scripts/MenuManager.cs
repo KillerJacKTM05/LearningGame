@@ -95,12 +95,19 @@ public class MenuManager : MonoBehaviour
     }
 
     /* GAME THINGS */
-    public void QuestionTimer(int counter)
+    public void QuestionTimer(int counter)              //use this for updating the timer of each question.
     {
         StartCoroutine(Counter(counter));
     }
     private IEnumerator Counter(int count)
     {
-        yield return null;
+        float currentTime = 0;
+        int counterDisplayer = count;
+        while(currentTime < count)
+        {
+            currentTime += Time.deltaTime;
+            counterDisplayer = (int)(count - currentTime);
+            yield return new WaitForEndOfFrame();
+        }
     }
 }
