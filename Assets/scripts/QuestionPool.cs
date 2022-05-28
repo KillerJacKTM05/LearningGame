@@ -1,5 +1,4 @@
 using System.Collections;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -60,17 +59,18 @@ public class QuestionPool : MonoBehaviour
     }
     public void AddQuestionToPool(string topName, GameObject question)
     {
-        int size = Topic.Count;
+        bool foundAndAdded = false;
         if (Topic.Count != 0)
         {
             for (int i = 0; i < Topic.Count; i++)
             {
                 if (Topic[i].topicName == topName)
                 {
-                    Topic[i].questions.Add(question);
+                    Topic[i].questions.Add(question);  
+                    foundAndAdded = true;
                 }
             }
-            if(size < Topic.Count)
+            if(!foundAndAdded)
             {
                 Debug.LogError("There is no suitable topic found with entered topic name. No question added.");
             }
@@ -83,5 +83,42 @@ public class QuestionPool : MonoBehaviour
     public void WriteTopicCount()
     {
         Debug.Log("Topics Count:" + Topic.Count);
+    }
+
+    public GameObject GetQuestion(string topicNam)
+    {
+        int random = 0;
+        int index = 0;
+        bool topicFound = false;
+        if(Topic.Count == 0)
+        {
+            Debug.LogError("No topic defined. First, insert a topic database.");
+        }
+        else if(Topic.Count != 0)
+        {
+            for(int i = 0; i < Topic.Count; i++)
+            {
+                if(Topic[i].topicName == topicNam)
+                {
+                    index = i;
+                    topicFound = true;
+                }
+            }
+            if (!topicFound)
+            {
+                Debug.LogError("no topic found with given name.");
+            }
+        }
+
+        if(Topic[index].questions.Count == 0)
+        {
+            Debug.LogError("no question found in the database.");
+        }
+        else if(Topic[index].questions.Count != 0)
+        {
+            random = Random.Range(0, Topic[index].questions.Count);
+            
+        }
+        return Topic[index].questions[random];
     }
 }
