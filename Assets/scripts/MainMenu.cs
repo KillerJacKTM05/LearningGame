@@ -8,9 +8,12 @@ public class MainMenu : MonoBehaviour
     // Start is called before the first frame update
     [Range(0f, 5f)] public float DelayTime = 2f;
     public GameObject settingsCanvas;
+    public GameObject lobbyCanvas;
+    public GameObject serverCanvas;
     void Start()
     {
         settingsCanvas.SetActive(false);
+        lobbyCanvas.SetActive(false);
     }
 
     // Update is called once per frame
@@ -20,7 +23,20 @@ public class MainMenu : MonoBehaviour
     }
     public void StartGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        lobbyCanvas.SetActive(true);
+    }
+    public void HostGame(GameObject startButton)
+    {
+        serverCanvas.SetActive(true);
+
+        startButton.SetActive(true);
+
+        MyNetworkManager.singleton.StartHost();
+    }
+
+    public void JoinGame(GameObject AdressMenu)
+    {
+        AdressMenu.SetActive(true);
     }
     public void QuitGame()
     {
