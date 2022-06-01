@@ -25,9 +25,11 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private GameObject settingsPanel;
     [SerializeField] private GameObject infoPanel;
     [SerializeField] private Slider volumeSlider;
+    [SerializeField] private GameObject topicsPanel;
+    [SerializeField] private List<GameObject> topicButtons;
     void Start()
     {
-        volumeSlider.value = SoundManager.instance.GetSource().volume;
+        
     }
 
     // Update is called once per frame
@@ -44,6 +46,7 @@ public class MenuManager : MonoBehaviour
     {
         if(index == 0)
         {
+            volumeSlider.value = SoundManager.instance.GetSource().volume;
             menuCanvas.SetActive(true);
             inGameCanvas.SetActive(false);
             profilePanel.SetActive(false);
@@ -125,5 +128,30 @@ public class MenuManager : MonoBehaviour
             counterDisplayer = (int)(count - currentTime);
             yield return new WaitForEndOfFrame();
         }
+    }
+    public void GetTopicChoices()
+    {
+        Button[] buttons = topicsPanel.GetComponentsInChildren<Button>();
+        foreach(Button button in buttons)
+        {
+            topicButtons.Add(button.transform.parent.gameObject);
+        }
+    }
+    public void SetTopicChoices(int index)
+    {
+        if(index < QuestionPool.instance.Topic.Count)
+        {
+            topicButtons[index].GetComponentInChildren<Text>().text = QuestionPool.instance.Topic[index].topicName;
+            SetTopicChoices(index + 1);
+        }
+    }
+    public GameObject getTopicsPanel()
+    {
+        return topicsPanel;
+    }
+    public void ChooseTopic(int index)
+    {
+        GameManager.instance.SetPlayerTopicName(1, QuestionPool.instance.Topic[index].topicName); //1 or 2, 1 for player1; 2 for player2
+        topicsPanel.SetActive(false);
     }
 }
