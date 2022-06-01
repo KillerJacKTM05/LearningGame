@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
@@ -10,16 +11,22 @@ public class MainMenu : MonoBehaviour
     public GameObject settingsCanvas;
     public GameObject lobbyCanvas;
     public GameObject serverCanvas;
+    public Slider volumeSlider;
     void Start()
     {
         settingsCanvas.SetActive(false);
         lobbyCanvas.SetActive(false);
+        volumeSlider.value = SoundManager.instance.GetSource().volume;
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+    private void OnEnable()
+    {
+        volumeSlider.onValueChanged.AddListener(delegate { changeVolume(volumeSlider.value); });
     }
     public void StartGame()
     {
@@ -62,5 +69,9 @@ public class MainMenu : MonoBehaviour
         {
             settingsCanvas.SetActive(false);
         }
+    }
+    public void changeVolume(float sliderValue)
+    {
+        SoundManager.instance.GetSource().volume = sliderValue;
     }
 }

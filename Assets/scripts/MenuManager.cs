@@ -24,15 +24,20 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private GameObject profilePanel;
     [SerializeField] private GameObject settingsPanel;
     [SerializeField] private GameObject infoPanel;
+    [SerializeField] private Slider volumeSlider;
     void Start()
     {
-        
+        volumeSlider.value = SoundManager.instance.GetSource().volume;
     }
 
     // Update is called once per frame
     void Update()
     {
         DisplayLocalTime();
+    }
+    private void OnEnable()
+    {
+        volumeSlider.onValueChanged.AddListener(delegate { changeVolume(volumeSlider.value); });
     }
     /* MENU THINGS */
     public void openCloseMenu(int index)
@@ -90,8 +95,19 @@ public class MenuManager : MonoBehaviour
     public void DisplayLocalTime()
     {
         string time;
-        time = System.DateTime.Now.Hour + ":" + System.DateTime.Now.Minute;
+        if(System.DateTime.Now.Minute < 10)
+        {
+            time = System.DateTime.Now.Hour + ":0" + System.DateTime.Now.Minute;
+        }
+        else
+        {
+            time = System.DateTime.Now.Hour + ":" + System.DateTime.Now.Minute;
+        }
         worldTimer.text = time;
+    }
+    public void changeVolume(float sliderValue)
+    {
+        SoundManager.instance.GetSource().volume = sliderValue;
     }
 
     /* GAME THINGS */
