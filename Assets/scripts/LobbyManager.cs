@@ -43,7 +43,7 @@ public class LobbyManager : MonoBehaviour
         {
             NetworkManager.singleton.StopHost();
         }
-        else
+        else if(NetworkClient.isConnected)
         {
             NetworkManager.singleton.StopClient();
         }

@@ -7,6 +7,7 @@ using Mirror;
 public class JoinMenu : MonoBehaviour
 {
     [SerializeField] private InputField input;
+    [SerializeField] private InputField nameTag;
     [SerializeField] private Button joinButton;
     [SerializeField] private GameObject serverCanvas;
     private void OnEnable()

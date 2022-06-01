@@ -44,7 +44,8 @@ public class MyNetworkPlayer : NetworkBehaviour
     }
 
     [Command]
-    public void CmdChangeMyName()
+    public void CmdChangeMyName(string name)
     {
+        displayName = name;
     }
 }
