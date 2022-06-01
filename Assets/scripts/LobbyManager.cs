@@ -23,12 +23,16 @@ public class LobbyManager : MonoBehaviour
 
     private void HandleClientInfo()
     {
-        List<MyNetworkPlayer> players = ((MyNetworkManager)NetworkManager.singleton).players;
+        Debug.Log("Player Connected" + ((MyNetworkManager)NetworkManager.singleton).players.Count);
 
-        for (int i = 0; i < players.Count; i++)
+
+        for (int i = 0; i < NetworkManager.singleton.numPlayers; i++)
         {
-            Debug.Log("Hello");
-            playerDisplays[i].text = players[i].GetDisplayName();
+            playerDisplays[i].text = "Ready";
+        }
+        for (int i = NetworkManager.singleton.numPlayers; i < 2; i++)
+        {
+            playerDisplays[i].text = "Waiting For Players";
         }
     }
 

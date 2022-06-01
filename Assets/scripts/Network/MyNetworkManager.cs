@@ -30,9 +30,9 @@ public class MyNetworkManager : NetworkManager
 
         MyNetworkPlayer player = conn.identity.GetComponent<MyNetworkPlayer>();
         
-        player.SetDisplayName("Player" + numPlayers);
-
         players.Add(player);
+
+        player.SetDisplayName("Player" + numPlayers);
     }
 
     public override void OnServerDisconnect(NetworkConnectionToClient conn)

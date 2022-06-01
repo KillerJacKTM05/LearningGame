@@ -26,8 +26,6 @@ public class MyNetworkPlayer : NetworkBehaviour
 
     public override void OnStartClient()
     {
-        Text nameTag = GameObject.FindGameObjectWithTag("NameTag").GetComponent<Text>();
-        displayName = nameTag.text;
         DontDestroyOnLoad(gameObject);
         base.OnStartClient();
     }
@@ -40,12 +38,7 @@ public class MyNetworkPlayer : NetworkBehaviour
 
     public void HandleClientNameUpdated(string oldName, string newName)
     {
+        Debug.Log(newName);
         ClientOnNameUpdated?.Invoke();
-    }
-
-    [Command]
-    public void CmdChangeMyName(string name)
-    {
-        displayName = name;
     }
 }
