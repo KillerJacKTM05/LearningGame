@@ -27,6 +27,8 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Slider volumeSlider;
     [SerializeField] private GameObject topicsPanel;
     [SerializeField] private List<GameObject> topicButtons;
+
+    [SerializeField] public QuestionUI questionPanel;
     void Start()
     {
         
@@ -42,7 +44,7 @@ public class MenuManager : MonoBehaviour
         volumeSlider.onValueChanged.AddListener(delegate { changeVolume(volumeSlider.value); });
     }
     /* MENU THINGS */
-    public void openCloseMenu(int index)
+    public void openCloseMenu(int index)                    //Menu tab
     {
         if(index == 0)
         {
@@ -62,7 +64,7 @@ public class MenuManager : MonoBehaviour
             infoPanel.SetActive(false);
         }
     }
-    public void openCloseSettings(int index)
+    public void openCloseSettings(int index)                //Settings tab
     {
         if (index == 0)
         {
@@ -73,7 +75,7 @@ public class MenuManager : MonoBehaviour
             settingsPanel.SetActive(false);
         }
     }
-    public void openCloseProfile(int index)
+    public void openCloseProfile(int index)                 //Profile tab
     {
         if (index == 0)
         {
@@ -84,7 +86,7 @@ public class MenuManager : MonoBehaviour
             profilePanel.SetActive(false);
         }
     }
-    public void openCloseInfo(int index)
+    public void openCloseInfo(int index)                    //Info tab
     {
         if (index == 0)
         {
@@ -95,7 +97,7 @@ public class MenuManager : MonoBehaviour
             infoPanel.SetActive(false);
         }
     }
-    public void DisplayLocalTime()
+    public void DisplayLocalTime()                          //This function displays the system time on the ingame menu.
     {
         string time;
         if(System.DateTime.Now.Minute < 10)
@@ -114,18 +116,19 @@ public class MenuManager : MonoBehaviour
     }
 
     /* GAME THINGS */
-    public void QuestionTimer(int counter)              //use this for updating the timer of each question.
+    public void QuestionTimer(int counter, GameObject display)             
     {
-        StartCoroutine(Counter(counter));
+        StartCoroutine(Counter(counter, display));
     }
-    private IEnumerator Counter(int count)
+    public IEnumerator Counter(int count, GameObject display)              //this is a simple counter that will be used during displaying the questions.
     {
         float currentTime = 0;
-        int counterDisplayer = count;
+        Text counterDisplay = display.GetComponent<Text>();
         while(currentTime < count)
         {
             currentTime += Time.deltaTime;
-            counterDisplayer = (int)(count - currentTime);
+            var t = (int)(count - currentTime);
+            counterDisplay.text = t.ToString();
             yield return new WaitForEndOfFrame();
         }
     }
@@ -137,7 +140,7 @@ public class MenuManager : MonoBehaviour
             topicButtons.Add(button.transform.parent.gameObject);
         }
     }
-    public void SetTopicChoices(int index)
+    public void SetTopicChoices(int index)                  //this function reads the topics defined in pool and displays on the topic selection UI.
     {
         if(index < QuestionPool.instance.Topic.Count)
         {
@@ -149,9 +152,20 @@ public class MenuManager : MonoBehaviour
     {
         return topicsPanel;
     }
-    public void ChooseTopic(int index)
+    public void ChooseTopic(int index)      //player topic choosing
     {
         GameManager.instance.SetPlayerTopicName(1, QuestionPool.instance.Topic[index].topicName); //1 or 2, 1 for player1; 2 for player2
         topicsPanel.SetActive(false);
+    }
+    public void Answer(int index)           //player's answer to the current displayed question, this will be connected to game loop
+    {
+        if(index == GameManager.instance.displayedQuestion.GetComponent<QuestionStructure>().correctChoiceIndex)
+        {
+            Debug.Log("Correct!");
+        }
+        else
+        {
+            Debug.Log("False");
+        }
     }
 }

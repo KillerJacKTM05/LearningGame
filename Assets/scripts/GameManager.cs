@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]private string player1Topic;
     [SerializeField]private string player2Topic;
+
+    public GameObject displayedQuestion;
     private void OnGUI()
     {
         Cursor.lockState = CursorLockMode.None;
@@ -37,6 +39,7 @@ public class GameManager : MonoBehaviour
         QuestionPool.instance.AddTopic("C#");
         MenuManager.instance.GetTopicChoices();
         MenuManager.instance.SetTopicChoices(0);
+        QuestionPool.instance.AddQuestionToPool();
         //QuestionPool.instance.WriteTopicCount();
         gameStart = true;
         StartCoroutine(StartGameDelay());

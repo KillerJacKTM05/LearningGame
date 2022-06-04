@@ -9,6 +9,7 @@ public class Topics
     public Topics(string name)
     {
         topicName = name;
+        questions = new List<GameObject>();
     }
 }
 public class QuestionPool : MonoBehaviour
@@ -26,6 +27,7 @@ public class QuestionPool : MonoBehaviour
         }
     }
     public List<Topics> Topic = new List<Topics>();
+    public List<GameObject> QuestionAddListForQuestionPool = new List<GameObject>();
     void Start()
     {
         
@@ -36,7 +38,7 @@ public class QuestionPool : MonoBehaviour
     {
         
     }
-    public void AddTopic(string topName)
+    public void AddTopic(string topName)                                    //Add topic to the pool. If topic is exists, it will not create duplicate.
     {
         int count = 0;
         if(Topic.Count != 0)
@@ -57,35 +59,41 @@ public class QuestionPool : MonoBehaviour
             Topic.Add(temp);
         }
     }
-    public void AddQuestionToPool(string topName, GameObject question)
+    public void AddQuestionToPool()                                         //Automatically adds all the questions that prepared on the inspector tab accroding to their topic names.
     {
-        bool foundAndAdded = false;
-        if (Topic.Count != 0)
+        for(int i = 0; i < QuestionAddListForQuestionPool.Count; i++)
         {
-            for (int i = 0; i < Topic.Count; i++)
+            bool topicFound = false;
+            int topicIndex = 0;
+            QuestionStructure reference = QuestionAddListForQuestionPool[i].GetComponent<QuestionStructure>();
+            //Debug.Log("topic:" + reference.questionTopic);
+            for(int j = 0; j < Topic.Count; j++)
             {
-                if (Topic[i].topicName == topName)
+                if(reference.questionTopic == Topic[j].topicName)
                 {
-                    Topic[i].questions.Add(question);  
-                    foundAndAdded = true;
+                    //Debug.Log("topic found! at:" + j);
+                    topicFound = true;
+                    topicIndex = j;
                 }
+                else { }
             }
-            if(!foundAndAdded)
+
+            if (topicFound)
             {
-                Debug.LogError("There is no suitable topic found with entered topic name. No question added.");
+                Topic[topicIndex].questions.Add(QuestionAddListForQuestionPool[i]);
             }
-        }
-        else if(Topic.Count == 0)
-        {
-            Debug.LogError("There is no topic on the list. No question added.");
+            else
+            {
+                Debug.LogError("No topic match for Question number" + i + ".");
+            }
         }
     }
-    public void WriteTopicCount()
+    public void WriteTopicCount()                               //writes total topic count to the console.
     {
         Debug.Log("Topics Count:" + Topic.Count);
     }
 
-    public GameObject GetQuestion(string topicNam)
+    public GameObject GetQuestion(string topicNam)              //returns random question with given topic. Please update the question UI after select a random question.
     {
         int random = 0;
         int index = 0;
@@ -120,5 +128,13 @@ public class QuestionPool : MonoBehaviour
             
         }
         return Topic[index].questions[random];
+    }
+
+    public void UpdateQuestionPanel(GameObject selected)                //Question displayer
+    {
+        QuestionStructure reference = selected.GetComponent<QuestionStructure>();
+        MenuManager.instance.questionPanel.setTimer(reference.answerTime);
+        MenuManager.instance.questionPanel.setQuestionText(reference.questionText);
+        MenuManager.instance.questionPanel.setChoices(reference.choices);
     }
 }
