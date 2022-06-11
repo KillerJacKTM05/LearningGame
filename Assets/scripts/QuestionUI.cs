@@ -8,6 +8,8 @@ public class QuestionUI : MonoBehaviour
     [SerializeField] private GameObject timer;
     [SerializeField] private List<GameObject> choices;
     [SerializeField] private GameObject questionText;
+    [SerializeField] private InputField playerInputField;
+    private string input;
     //UI setter class;
     public GameObject getQuestionText()
     {
@@ -21,16 +23,28 @@ public class QuestionUI : MonoBehaviour
     {
         return timer;
     }
+    public string getFieldText()
+    {
+        return input;
+    }
+
+    public void setInput()              //call on end edit
+    {
+        input = playerInputField.text;
+        //Debug.Log("player input:" + input);
+        MenuManager.instance.Answer(0);
+    }
     public void setTimer(int Time)
     {
         Text timeText = timer.GetComponentInChildren<Text>();
         timeText.text = Time.ToString();
-        MenuManager.instance.QuestionTimer(Time, timer);
+        //MenuManager.instance.QuestionTimer(Time, getTimer());
     }
     public void setQuestionText(string Text)
     {
         Text qText = questionText.GetComponent<Text>();
         qText.text = Text;
+        qText.alignment = TextAnchor.MiddleLeft;
     }
     public void setChoices(List<string> list)
     {

@@ -28,7 +28,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private GameObject topicsPanel;
     [SerializeField] private List<GameObject> topicButtons;
 
-    [SerializeField] public QuestionUI questionPanel;
+    public List<QuestionUI> questionPanel;                                      //0 index is for multiple choice, 1 index for input question
     void Start()
     {
         
@@ -156,16 +156,31 @@ public class MenuManager : MonoBehaviour
     {
         GameManager.instance.SetPlayerTopicName(1, QuestionPool.instance.Topic[index].topicName); //1 or 2, 1 for player1; 2 for player2
         topicsPanel.SetActive(false);
+        GameManager.instance.topicsChosed = true;
     }
-    public void Answer(int index)           //player's answer to the current displayed question, this will be connected to game loop
+    public void Answer(int index)           //check answers here, correct or false. according to value, please edit player.
     {
-        if(index == GameManager.instance.displayedQuestion.GetComponent<QuestionStructure>().correctChoiceIndex)
+        if (GameManager.instance.displayedQuestion.GetComponent<QuestionStructure>().isQuestionMultipleChoice)
         {
-            Debug.Log("Correct!");
+            if (index == GameManager.instance.displayedQuestion.GetComponent<QuestionStructure>().correctChoiceIndex)
+            {
+                Debug.Log("Correct!");
+            }
+            else
+            {
+                Debug.Log("False");
+            }
         }
         else
         {
-            Debug.Log("False");
+            if(questionPanel[1].getFieldText() == GameManager.instance.displayedQuestion.GetComponent<QuestionStructure>().questionAnswerIfNotMultipleChoice)
+            {
+                Debug.Log("Correct!");
+            }
+            else
+            {
+                Debug.Log("False");
+            }
         }
     }
 }

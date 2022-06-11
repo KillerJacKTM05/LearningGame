@@ -81,12 +81,14 @@ public class QuestionPool : MonoBehaviour
             if (topicFound)
             {
                 Topic[topicIndex].questions.Add(QuestionAddListForQuestionPool[i]);
+                //Debug.Log(Topic[topicIndex].questions.Count);
             }
             else
             {
                 Debug.LogError("No topic match for Question number" + i + ".");
             }
         }
+        GameManager.instance.gameStart = true;
     }
     public void WriteTopicCount()                               //writes total topic count to the console.
     {
@@ -130,11 +132,20 @@ public class QuestionPool : MonoBehaviour
         return Topic[index].questions[random];
     }
 
-    public void UpdateQuestionPanel(GameObject selected)                //Question displayer
+    public void UpdateQuestionPanel(GameObject selected)                //Question displayer, panel index 0 for multiple choice, another one for text input
     {
         QuestionStructure reference = selected.GetComponent<QuestionStructure>();
-        MenuManager.instance.questionPanel.setTimer(reference.answerTime);
-        MenuManager.instance.questionPanel.setQuestionText(reference.questionText);
-        MenuManager.instance.questionPanel.setChoices(reference.choices);
+        if (reference.isQuestionMultipleChoice)
+        {
+            MenuManager.instance.questionPanel[0].setChoices(reference.choices);
+            MenuManager.instance.questionPanel[0].setTimer(reference.answerTime);
+            MenuManager.instance.questionPanel[0].setQuestionText(reference.questionText);
+        }
+        else
+        {
+            MenuManager.instance.questionPanel[1].setTimer(reference.answerTime);
+            var str = reference.questionText.Replace("Newline", "\n");
+            MenuManager.instance.questionPanel[1].setQuestionText(str);
+        }
     }
 }

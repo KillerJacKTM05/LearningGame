@@ -19,13 +19,12 @@ public class GameManager : MonoBehaviour
 
 
     public bool gameStart = false;
+    public bool topicsChosed = false;
     public bool questionDisplayed = false;
     public bool timeIsUp = false;
     [Range(0, 50f)] public float startGameDelay = 5f;
-
-    [SerializeField]private string player1Topic;
-    [SerializeField]private string player2Topic;
-
+    public string player1Topic;
+    public string player2Topic;
     public GameObject displayedQuestion;
     private void OnGUI()
     {
@@ -41,14 +40,27 @@ public class GameManager : MonoBehaviour
         MenuManager.instance.SetTopicChoices(0);
         QuestionPool.instance.AddQuestionToPool();
         //QuestionPool.instance.WriteTopicCount();
-        gameStart = true;
         StartCoroutine(StartGameDelay());
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(gameStart && !questionDisplayed && topicsChosed)             //CHANGE HERE WHEN GAME LOOP WILL BE SET, NETWORK REQUIRED
+        {
+            GameObject obj = QuestionPool.instance.GetQuestion(player1Topic);
+            displayedQuestion = obj;
+            QuestionPool.instance.UpdateQuestionPanel(displayedQuestion);
+            if (displayedQuestion.GetComponent<QuestionStructure>().isQuestionMultipleChoice)
+            {
+                MenuManager.instance.questionPanel[0].gameObject.SetActive(true);
+            }
+            else
+            {
+                MenuManager.instance.questionPanel[1].gameObject.SetActive(true);
+            }
+            questionDisplayed = true;
+        }
     }
     public string GetPlayerTopicName(int index)       //1 or 2
     {
