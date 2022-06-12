@@ -10,6 +10,8 @@ public class MyNetworkPlayer : NetworkBehaviour
     [SerializeField][SyncVar(hook = nameof(HandleClientNameUpdated))]
     string displayName = "No Name";
 
+    [SerializeField] public GameObject playerModel;
+
 
     public static event Action ClientOnNameUpdated;
 

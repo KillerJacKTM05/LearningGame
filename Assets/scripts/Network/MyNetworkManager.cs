@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,7 @@ public class MyNetworkManager : NetworkManager
     private bool isGameInProgress = false;
 
     [SerializeField] public List<MyNetworkPlayer> players = new List<MyNetworkPlayer>();
+    
 
     public override void OnServerConnect(NetworkConnectionToClient conn)
     {
@@ -79,5 +81,22 @@ public class MyNetworkManager : NetworkManager
         ClientOnDisconnected?.Invoke();
     }
 
+    public override void OnServerSceneChanged(string sceneName)
+    {
+        base.OnServerSceneChanged(sceneName);
+
+        if (sceneName == SceneManager.GetActiveScene().name)
+        {
+            List<GameObject> spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint").ToList<GameObject>();
+            int i = 0;
+            foreach (var player in players)
+            {
+                GameObject avatar = Instantiate(player.playerModel, spawnPoints[i].transform.position, spawnPoints[i].transform.rotation);
+
+                NetworkServer.Spawn(avatar, player.connectionToClient);
+                i++;
+            }
+        }
+    }
 
 }

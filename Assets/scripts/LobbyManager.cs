@@ -32,7 +32,7 @@ public class LobbyManager : MonoBehaviour
         }
         for (int i = NetworkManager.singleton.numPlayers; i < 2; i++)
         {
-            playerDisplays[i].text = "Waiting For Players";
+            playerDisplays[i].text = "Waiting For Players....";
         }
     }
 
