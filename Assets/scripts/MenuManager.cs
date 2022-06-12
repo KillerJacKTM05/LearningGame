@@ -29,6 +29,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private List<GameObject> topicButtons;
 
     public List<QuestionUI> questionPanel;                                      //0 index is for multiple choice, 1 index for input question
+    [Range(0, 5f)] public float questionDisplayDelay = 3f;
     void Start()
     {
         
@@ -192,5 +193,6 @@ public class MenuManager : MonoBehaviour
         {
             questionPanel[i].gameObject.SetActive(false);
         }
+        StartCoroutine(QuestionDisplayDelay());
     }
 }
