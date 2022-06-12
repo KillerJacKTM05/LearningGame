@@ -2,84 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Mirror;
 
-public class MenuManager : NetworkBehaviour
+public class MenuManager : MonoBehaviour
 {
-
-    [SerializeField] QuestionHandler questionHandler = null;
-
-    #region Server
-    public override void OnStartServer()
-    {
-        base.OnStartServer();
-
-        QuestionHandler.ServerOnClientStart += ClientHandleSpawner;
-        QuestionHandler.ServerOnClientStop += ClientHandleDespawner;
-    }
-
-    public override void OnStopServer()
-    {
-        base.OnStopServer();
-
-        QuestionHandler.ServerOnClientStart -= ClientHandleSpawner;
-        QuestionHandler.ServerOnClientStop -= ClientHandleDespawner;
-    }
-
-    public override void OnStartClient()
-    {
-
-        base.OnStartClient();
-        if (!isClientOnly)
-        {
-            return;
-        }
-
-
-
-        QuestionHandler.AuthOnClientStart += ClientHandleSpawner;
-        QuestionHandler.AuthOnClientStop += ClientHandleDespawner;
-    }
-
-    public override void OnStopClient()
-    {
-        base.OnStopClient();
-        if (!isClientOnly)
-        {
-            return;
-        }
-        QuestionHandler.AuthOnClientStart -= ClientHandleSpawner;
-        QuestionHandler.AuthOnClientStop -= ClientHandleDespawner;
-    }
-
-
-    private void ClientHandleSpawner(QuestionHandler ques)
-    {
-        Debug.Log("Client Check");
-        if (!ques.hasAuthority)
-        {
-            return;
-        }
-        questionHandler = ques;
-    }
-
-    private void ClientHandleDespawner(QuestionHandler ques)
-    {
-        Debug.Log("Client Check");
-        if (!ques.hasAuthority)
-        {
-            return;
-        }
-        questionHandler = ques;
-    }
-
-    #endregion
-
-    #region Non-server
     public static MenuManager instance { get; private set; }
     private void Awake()
     {
-        if (instance != null && instance != this)
+        if(instance != null && instance != this)
         {
             Destroy(this);
         }
@@ -100,10 +29,10 @@ public class MenuManager : NetworkBehaviour
     [SerializeField] private List<GameObject> topicButtons;
 
     public List<QuestionUI> questionPanel;                                      //0 index is for multiple choice, 1 index for input question
-    [Range(0f, 5f)] public float questionDisplayDelay = 3f;
+    [Range(0, 5f)] public float questionDisplayDelay = 3f;
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
@@ -118,7 +47,7 @@ public class MenuManager : NetworkBehaviour
     /* MENU THINGS */
     public void openCloseMenu(int index)                    //Menu tab
     {
-        if (index == 0)
+        if(index == 0)
         {
             volumeSlider.value = SoundManager.instance.GetSource().volume;
             menuCanvas.SetActive(true);
@@ -127,7 +56,7 @@ public class MenuManager : NetworkBehaviour
             settingsPanel.SetActive(false);
             infoPanel.SetActive(false);
         }
-        else if (index == 1)
+        else if(index == 1)
         {
             menuCanvas.SetActive(false);
             inGameCanvas.SetActive(true);
@@ -172,7 +101,7 @@ public class MenuManager : NetworkBehaviour
     public void DisplayLocalTime()                          //This function displays the system time on the ingame menu.
     {
         string time;
-        if (System.DateTime.Now.Minute < 10)
+        if(System.DateTime.Now.Minute < 10)
         {
             time = System.DateTime.Now.Hour + ":0" + System.DateTime.Now.Minute;
         }
@@ -188,7 +117,7 @@ public class MenuManager : NetworkBehaviour
     }
 
     /* GAME THINGS */
-    public void QuestionTimer(int counter, GameObject display)
+    public void QuestionTimer(int counter, GameObject display)             
     {
         StartCoroutine(Counter(counter, display));
     }
@@ -196,7 +125,7 @@ public class MenuManager : NetworkBehaviour
     {
         float currentTime = 0;
         Text counterDisplay = display.GetComponent<Text>();
-        while (currentTime < count)
+        while(currentTime < count)
         {
             currentTime += Time.deltaTime;
             var t = (int)(count - currentTime);
@@ -204,7 +133,6 @@ public class MenuManager : NetworkBehaviour
             yield return new WaitForEndOfFrame();
         }
     }
-
     public IEnumerator QuestionDisplayDelay()
     {
         yield return new WaitForSeconds(questionDisplayDelay);
@@ -213,14 +141,14 @@ public class MenuManager : NetworkBehaviour
     public void GetTopicChoices()
     {
         Button[] buttons = topicsPanel.GetComponentsInChildren<Button>();
-        foreach (Button button in buttons)
+        foreach(Button button in buttons)
         {
             topicButtons.Add(button.transform.parent.gameObject);
         }
     }
     public void SetTopicChoices(int index)                  //this function reads the topics defined in pool and displays on the topic selection UI.
     {
-        if (index < QuestionPool.instance.Topic.Count)
+        if(index < QuestionPool.instance.Topic.Count)
         {
             topicButtons[index].GetComponentInChildren<Text>().text = QuestionPool.instance.Topic[index].topicName;
             SetTopicChoices(index + 1);
@@ -242,7 +170,7 @@ public class MenuManager : NetworkBehaviour
         {
             if (index == GameManager.instance.displayedQuestion.GetComponent<QuestionStructure>().correctChoiceIndex)
             {
-                questionHandler.Move();
+                Debug.Log("Correct!");
             }
             else
             {
@@ -251,9 +179,9 @@ public class MenuManager : NetworkBehaviour
         }
         else
         {
-            if (questionPanel[1].getFieldText() == GameManager.instance.displayedQuestion.GetComponent<QuestionStructure>().questionAnswerIfNotMultipleChoice)
+            if(questionPanel[1].getFieldText() == GameManager.instance.displayedQuestion.GetComponent<QuestionStructure>().questionAnswerIfNotMultipleChoice)
             {
-                questionHandler.Move();
+                Debug.Log("Correct!");
             }
             else
             {
@@ -261,12 +189,10 @@ public class MenuManager : NetworkBehaviour
             }
         }
 
-        for (int i = 0; i < questionPanel.Count; i++)
+        for(int i = 0; i < questionPanel.Count; i++)
         {
             questionPanel[i].gameObject.SetActive(false);
         }
         StartCoroutine(QuestionDisplayDelay());
     }
-    #endregion
-
 }
