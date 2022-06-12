@@ -132,6 +132,11 @@ public class MenuManager : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
     }
+    public IEnumerator QuestionDisplayDelay()
+    {
+        yield return new WaitForSeconds(questionDisplayDelay);
+        GameManager.instance.questionDisplayed = false;
+    }
     public void GetTopicChoices()
     {
         Button[] buttons = topicsPanel.GetComponentsInChildren<Button>();
@@ -181,6 +186,11 @@ public class MenuManager : MonoBehaviour
             {
                 Debug.Log("False");
             }
+        }
+
+        for(int i = 0; i < questionPanel.Count; i++)
+        {
+            questionPanel[i].gameObject.SetActive(false);
         }
     }
 }
