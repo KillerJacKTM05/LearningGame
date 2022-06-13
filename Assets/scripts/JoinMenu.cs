@@ -24,6 +24,10 @@ public class JoinMenu : MonoBehaviour
     public void Join()
     {
         string adress = input.text;
+        if (adress == string.Empty)
+        {
+            adress = "localhost";
+        }
 
         Debug.Log("Joining Server: " + adress);
 

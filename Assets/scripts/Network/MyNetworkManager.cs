@@ -94,6 +94,7 @@ public class MyNetworkManager : NetworkManager
                 GameObject avatar = Instantiate(player.playerModel, spawnPoints[i].transform.position, spawnPoints[i].transform.rotation);
 
                 NetworkServer.Spawn(avatar, player.connectionToClient);
+                player.SetHandler(avatar.GetComponent<QuestionHandler>());
                 i++;
             }
         }

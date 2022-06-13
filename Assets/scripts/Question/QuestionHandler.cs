@@ -6,26 +6,45 @@ using System;
 
 public class QuestionHandler : NetworkBehaviour
 {
-    public static event Action<QuestionHandler> ServerOnClientStart;
-    public static event Action<QuestionHandler> ServerOnClientStop;
+    [SerializeField] QuestionUIv2 questionUI = null;
 
-    public static event Action<QuestionHandler> AuthOnClientStart;
-    public static event Action<QuestionHandler> AuthOnClientStop;
+    [SerializeField] public bool isMyTurn = false;
 
+    #region Server
+
+    public void Start()
+    {
+        Debug.Log(hasAuthority);
+        if (!hasAuthority)
+        {
+            return;
+        }
+        Debug.Log("has auth");
+        questionUI = GameObject.FindObjectOfType<QuestionUIv2>();
+        questionUI.SetPlayer(this);
+    }
 
     [Command]
     public void CmdMove()
     {
-        this.transform.Translate(Vector3.forward* 5);
+        this.transform.Translate(Vector3.forward * 5);
     }
 
-    [ClientCallback]
+    #endregion
+
+
+    #region Client
+
     public void Move()
     {
         if (!hasAuthority)
         {
             return;
         }
+        Debug.Log("Trying To Move");
         CmdMove();
     }
+
+    #endregion
+
 }

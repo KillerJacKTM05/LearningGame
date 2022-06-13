@@ -13,5 +13,5 @@ public class QuestionStructure : MonoBehaviour
     public int correctChoiceIndex = 0;
     public string questionTopic = "";
     public bool isQuestionMultipleChoice = true;
-    public string questionAnswerIfNotMultipleChoice;
+    public string questionAnswerInput;
 }

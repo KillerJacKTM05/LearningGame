@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Mirror;
 
-public class MenuManager : MonoBehaviour
+public class MenuManager : NetworkBehaviour
 {
+    #region Dont Touch
     public static MenuManager instance { get; private set; }
     private void Awake()
     {
-        if(instance != null && instance != this)
+        if (instance != null && instance != this)
         {
             Destroy(this);
         }
@@ -32,7 +34,7 @@ public class MenuManager : MonoBehaviour
     [Range(0, 5f)] public float questionDisplayDelay = 3f;
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -47,7 +49,7 @@ public class MenuManager : MonoBehaviour
     /* MENU THINGS */
     public void openCloseMenu(int index)                    //Menu tab
     {
-        if(index == 0)
+        if (index == 0)
         {
             volumeSlider.value = SoundManager.instance.GetSource().volume;
             menuCanvas.SetActive(true);
@@ -56,7 +58,7 @@ public class MenuManager : MonoBehaviour
             settingsPanel.SetActive(false);
             infoPanel.SetActive(false);
         }
-        else if(index == 1)
+        else if (index == 1)
         {
             menuCanvas.SetActive(false);
             inGameCanvas.SetActive(true);
@@ -101,7 +103,7 @@ public class MenuManager : MonoBehaviour
     public void DisplayLocalTime()                          //This function displays the system time on the ingame menu.
     {
         string time;
-        if(System.DateTime.Now.Minute < 10)
+        if (System.DateTime.Now.Minute < 10)
         {
             time = System.DateTime.Now.Hour + ":0" + System.DateTime.Now.Minute;
         }
@@ -117,7 +119,7 @@ public class MenuManager : MonoBehaviour
     }
 
     /* GAME THINGS */
-    public void QuestionTimer(int counter, GameObject display)             
+    public void QuestionTimer(int counter, GameObject display)
     {
         StartCoroutine(Counter(counter, display));
     }
@@ -125,7 +127,7 @@ public class MenuManager : MonoBehaviour
     {
         float currentTime = 0;
         Text counterDisplay = display.GetComponent<Text>();
-        while(currentTime < count)
+        while (currentTime < count)
         {
             currentTime += Time.deltaTime;
             var t = (int)(count - currentTime);
@@ -141,14 +143,14 @@ public class MenuManager : MonoBehaviour
     public void GetTopicChoices()
     {
         Button[] buttons = topicsPanel.GetComponentsInChildren<Button>();
-        foreach(Button button in buttons)
+        foreach (Button button in buttons)
         {
             topicButtons.Add(button.transform.parent.gameObject);
         }
     }
     public void SetTopicChoices(int index)                  //this function reads the topics defined in pool and displays on the topic selection UI.
     {
-        if(index < QuestionPool.instance.Topic.Count)
+        if (index < QuestionPool.instance.Topic.Count)
         {
             topicButtons[index].GetComponentInChildren<Text>().text = QuestionPool.instance.Topic[index].topicName;
             SetTopicChoices(index + 1);
@@ -179,7 +181,7 @@ public class MenuManager : MonoBehaviour
         }
         else
         {
-            if(questionPanel[1].getFieldText() == GameManager.instance.displayedQuestion.GetComponent<QuestionStructure>().questionAnswerIfNotMultipleChoice)
+            if (questionPanel[1].getFieldText() == GameManager.instance.displayedQuestion.GetComponent<QuestionStructure>().questionAnswerInput)
             {
                 Debug.Log("Correct!");
             }
@@ -189,10 +191,11 @@ public class MenuManager : MonoBehaviour
             }
         }
 
-        for(int i = 0; i < questionPanel.Count; i++)
+        for (int i = 0; i < questionPanel.Count; i++)
         {
             questionPanel[i].gameObject.SetActive(false);
         }
         StartCoroutine(QuestionDisplayDelay());
     }
+    #endregion
 }

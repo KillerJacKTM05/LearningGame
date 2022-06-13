@@ -48,6 +48,6 @@ MonoBehaviour:
   choices: []
   answerTime: 60
   correctChoiceIndex: 0
-  questionTopic: python
+  questionTopic: Python
   isQuestionMultipleChoice: 0
-  questionAnswerIfNotMultipleChoice: apple banana cherry
+  questionAnswerInput: apple banana cherry

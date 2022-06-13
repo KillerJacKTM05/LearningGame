@@ -11,9 +11,16 @@ public class MyNetworkPlayer : NetworkBehaviour
     string displayName = "No Name";
 
     [SerializeField] public GameObject playerModel;
+    [SerializeField] private QuestionHandler handler = null;
 
 
     public static event Action ClientOnNameUpdated;
+
+    [Server]
+    public void SetHandler(QuestionHandler _handler)
+    {
+        handler = _handler;
+    }
 
     public string GetDisplayName()
     {
@@ -41,6 +48,7 @@ public class MyNetworkPlayer : NetworkBehaviour
     public void HandleClientNameUpdated(string oldName, string newName)
     {
         Debug.Log(newName);
+
         ClientOnNameUpdated?.Invoke();
     }
 }
