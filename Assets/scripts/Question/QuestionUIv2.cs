@@ -17,6 +17,12 @@ public class QuestionUIv2 : NetworkBehaviour
     [Header("UI")]
     [SerializeField] private GameObject canvas;
     [SerializeField] private Text questionText;
+    [SerializeField] private GameObject menuCanvas;
+    [SerializeField] private GameObject settingsPanel;
+    [SerializeField] private GameObject profilePanel;
+    [SerializeField] private Text profile;
+    [SerializeField] private Dropdown qualityDropdown;
+    [SerializeField] private Dropdown resolutionDropdown;
 
     [Header("Topic")]
     [SerializeField] private GameObject topicsPanel;
@@ -36,7 +42,7 @@ public class QuestionUIv2 : NetworkBehaviour
 
     [Header("Game Over UI")]
     [SerializeField] private GameObject gameOverObject;
-
+    [SerializeField] private Text playerName;
     [SerializeField] private int playerPoint = 0;
     [SerializeField] private bool isMyTurn = false;
 
@@ -59,12 +65,50 @@ public class QuestionUIv2 : NetworkBehaviour
             SetTopicPanel();
         }
     }
-
+    #region Ui Thing
     public void EndGame()
     {
         Debug.Log("Quitting Game...");
         Application.Quit();
     }
+
+    public void OpenMenu(int index)
+    {
+        if(index == 0)                              //menu ui opened
+        {
+            menuCanvas.SetActive(true);
+            canvas.SetActive(false);
+        }
+        else if(index == 1)                         //menu ui closed
+        {
+            menuCanvas.SetActive(false);
+            canvas.SetActive(true);
+        }
+    }
+    public void Settings(int index)
+    {
+        if (index == 0)                              //settings opened
+        {
+            settingsPanel.SetActive(true);
+        }
+        else if(index == 1)
+        {
+            settingsPanel.SetActive(false);
+        }
+    }
+    public void Profile(int index)
+    {
+        if (index == 0)                              //settings opened
+        {
+            profilePanel.SetActive(true);
+            profile.text = connectionToClient.identity.GetComponent<MyNetworkPlayer>().GetDisplayName();
+        }
+        else if (index == 1)
+        {
+            profilePanel.SetActive(false);
+        }
+    }
+    #endregion
 
     #region Topic
 
@@ -130,6 +174,7 @@ public class QuestionUIv2 : NetworkBehaviour
         if (playerPoint == 7)
         {
             Debug.Log("Won the Game");
+            playerName.text = $"{connectionToClient.identity.GetComponent<MyNetworkPlayer>().GetDisplayName()} WON";
             gameOverObject.SetActive(true);
             canvas.SetActive(true);
             return;
