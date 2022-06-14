@@ -6,9 +6,8 @@ using System;
 
 public class QuestionHandler : NetworkBehaviour
 {
-    [SerializeField] QuestionUIv2 questionUI = null;
-
-    [SerializeField] public bool isMyTurn = false;
+    public QuestionUIv2 questionUI = null;
+    public TurnManager turnManager = null;
 
     #region Server
 

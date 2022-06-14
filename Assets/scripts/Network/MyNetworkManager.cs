@@ -14,7 +14,8 @@ public class MyNetworkManager : NetworkManager
 
     private bool isGameInProgress = false;
 
-    [SerializeField] public List<MyNetworkPlayer> players = new List<MyNetworkPlayer>();
+    public List<MyNetworkPlayer> players = new List<MyNetworkPlayer>();
+    [SerializeField] bool activeSceneGame = false;
     
 
     public override void OnServerConnect(NetworkConnectionToClient conn)
@@ -85,6 +86,8 @@ public class MyNetworkManager : NetworkManager
     {
         base.OnServerSceneChanged(sceneName);
 
+        activeSceneGame = true;
+
         if (sceneName == SceneManager.GetActiveScene().name)
         {
             List<GameObject> spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint").ToList<GameObject>();
@@ -94,10 +97,10 @@ public class MyNetworkManager : NetworkManager
                 GameObject avatar = Instantiate(player.playerModel, spawnPoints[i].transform.position, spawnPoints[i].transform.rotation);
 
                 NetworkServer.Spawn(avatar, player.connectionToClient);
+
                 player.SetHandler(avatar.GetComponent<QuestionHandler>());
                 i++;
             }
         }
     }
-
 }

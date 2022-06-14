@@ -10,17 +10,23 @@ public class MyNetworkPlayer : NetworkBehaviour
     [SerializeField][SyncVar(hook = nameof(HandleClientNameUpdated))]
     string displayName = "No Name";
 
-    [SerializeField] public GameObject playerModel;
-    [SerializeField] private QuestionHandler handler = null;
+    public GameObject playerModel;
+
+    [SerializeField] private QuestionHandler myHandler;
 
 
     public static event Action ClientOnNameUpdated;
 
-    [Server]
-    public void SetHandler(QuestionHandler _handler)
+    public void SetHandler(QuestionHandler handler)
     {
-        handler = _handler;
+        myHandler = handler;
     }
+
+    public QuestionHandler GetHandler()
+    {
+        return myHandler;
+    }
+
 
     public string GetDisplayName()
     {

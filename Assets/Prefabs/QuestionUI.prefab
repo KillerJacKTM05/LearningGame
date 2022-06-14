@@ -545,6 +545,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2521314212389228111}
+        m_TargetAssemblyTypeName: TurnManager, Assembly-CSharp
+        m_MethodName: SetTurn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1162962422634496617
 GameObject:
   m_ObjectHideFlags: 0
@@ -634,6 +646,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8280949330842626886}
   - component: {fileID: 4551900821266636832}
+  - component: {fileID: 2521314212389228111}
   - component: {fileID: 7918715043528022149}
   m_Layer: 0
   m_Name: QuestionUI
@@ -681,6 +694,7 @@ MonoBehaviour:
   - {fileID: 5662695780271578659, guid: d3b764d66206b024eace8f9699f43d51, type: 3}
   - {fileID: 8595846223841666350, guid: cb07e9b80f307b7418fef0907bcba12b, type: 3}
   - {fileID: 6070670338710088390, guid: 1c33fc235e8f42648a911b08fd44a8f3, type: 3}
+  topicPool: []
   currQuestion: {fileID: 0}
   canvas: {fileID: 4329069890086983423}
   questionText: {fileID: 8025213081539826233}
@@ -712,6 +726,22 @@ MonoBehaviour:
   answerButton: {fileID: 387907899204800333}
   inputField: {fileID: 759360361341999}
   playerPoint: 0
+  isMyTurn: 0
+--- !u!114 &2521314212389228111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300914721326176953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5f52a6f902f4954bb8ca3dd5696eb4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  questionUI: {fileID: 0}
 --- !u!114 &7918715043528022149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1065,6 +1095,18 @@ MonoBehaviour:
       - m_Target: {fileID: 4551900821266636832}
         m_TargetAssemblyTypeName: QuestionUIv2, Assembly-CSharp
         m_MethodName: AnswerQuestion
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2521314212389228111}
+        m_TargetAssemblyTypeName: TurnManager, Assembly-CSharp
+        m_MethodName: SetTurn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1583,6 +1625,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2521314212389228111}
+        m_TargetAssemblyTypeName: TurnManager, Assembly-CSharp
+        m_MethodName: SetTurn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4329069890086983423
 GameObject:
   m_ObjectHideFlags: 0
@@ -1601,7 +1655,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1007755698219785416
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1848,6 +1902,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2521314212389228111}
+        m_TargetAssemblyTypeName: TurnManager, Assembly-CSharp
+        m_MethodName: SetTurn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -2494,6 +2560,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: QuestionUIv2, Assembly-CSharp
         m_MethodName: AnswerQuestion
         m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2521314212389228111}
+        m_TargetAssemblyTypeName: TurnManager, Assembly-CSharp
+        m_MethodName: SetTurn
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

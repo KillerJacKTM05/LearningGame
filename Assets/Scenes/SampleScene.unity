@@ -23698,14 +23698,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: QuestionUI
       objectReference: {fileID: 0}
-    - target: {fileID: 4329069890086983423, guid: 3015647fa6fc79c4db1bdc8a9c3d4043, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4495615899501585213, guid: 3015647fa6fc79c4db1bdc8a9c3d4043, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7918715043528022149, guid: 3015647fa6fc79c4db1bdc8a9c3d4043, type: 3}
       propertyPath: sceneId
       value: 2555879473

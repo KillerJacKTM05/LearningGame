@@ -35,17 +35,25 @@ public class QuestionUIv2 : NetworkBehaviour
     [SerializeField] private InputField inputField;
 
     [SerializeField] private int playerPoint = 0;
+    [SerializeField] private bool isMyTurn = false;
 
-    private void Start()
-    {
-        
+    public void Start()
+    {      
+        if (isServer)
+        {
+            isMyTurn = !isMyTurn;
+        }
     }
+
+
 
     public void SetDebugQuestion()
     {
         SelectQuestion();
         SetQuestion();
     }
+
+
 
     private void OnGUI()
     {
@@ -99,6 +107,10 @@ public class QuestionUIv2 : NetworkBehaviour
                 topicPool.Add(item);
             }
         }
+        if (isServer)
+        {
+            SendQuestion();
+        }
     }
 
     #endregion
@@ -113,6 +125,24 @@ public class QuestionUIv2 : NetworkBehaviour
     {
         handler.Move();
     }
+
+    [Command(requiresAuthority = false)]
+    public void CmdSetTurn()
+    {
+        RpcSetTurn();
+    }
+
+    [ClientRpc]
+    public void RpcSetTurn()
+    {
+        Debug.Log(this.netId);
+        isMyTurn = !isMyTurn;
+        if (isMyTurn)
+        {
+            SendQuestion();
+        }
+    }
+
     #endregion
 
     #region Question
@@ -165,6 +195,12 @@ public class QuestionUIv2 : NetworkBehaviour
             TrueAnswer();
         }
         currQuestion = null;
+    }
+
+    public void SendQuestion()
+    {
+        SelectQuestion();
+        SetQuestion();
     }
 
 
