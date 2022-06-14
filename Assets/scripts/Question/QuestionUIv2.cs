@@ -34,6 +34,9 @@ public class QuestionUIv2 : NetworkBehaviour
     [SerializeField] private Button answerButton;
     [SerializeField] private InputField inputField;
 
+    [Header("Game Over UI")]
+    [SerializeField] private GameObject gameOverObject;
+
     [SerializeField] private int playerPoint = 0;
     [SerializeField] private bool isMyTurn = false;
 
@@ -45,25 +48,6 @@ public class QuestionUIv2 : NetworkBehaviour
         }
     }
 
-
-
-    public void SetDebugQuestion()
-    {
-        SelectQuestion();
-        SetQuestion();
-    }
-
-
-
-    private void OnGUI()
-    {
-        if (GUI.Button(new Rect(10, 10, 50, 50), "Show Question"))
-        {
-            SetDebugQuestion();
-        }
-    }
-
-
     private void Update()
     {
         if (canvas.activeInHierarchy)
@@ -74,6 +58,12 @@ public class QuestionUIv2 : NetworkBehaviour
         {
             SetTopicPanel();
         }
+    }
+
+    public void EndGame()
+    {
+        Debug.Log("Quitting Game...");
+        Application.Quit();
     }
 
     #region Topic
@@ -135,8 +125,16 @@ public class QuestionUIv2 : NetworkBehaviour
     [ClientRpc]
     public void RpcSetTurn()
     {
-        Debug.Log(this.netId);
         isMyTurn = !isMyTurn;
+
+        if (playerPoint == 7)
+        {
+            Debug.Log("Won the Game");
+            gameOverObject.SetActive(true);
+            canvas.SetActive(true);
+            return;
+        }
+
         if (isMyTurn)
         {
             SendQuestion();
@@ -180,6 +178,7 @@ public class QuestionUIv2 : NetworkBehaviour
         if (currQuestion.correctChoiceIndex == choiceIndex)
         {
             Debug.Log("Correct!");
+            playerPoint++;
             TrueAnswer();
         }
         currQuestion = null;
@@ -192,6 +191,7 @@ public class QuestionUIv2 : NetworkBehaviour
         if (currQuestion.questionAnswerInput == inputField.text)
         {
             Debug.Log("Correct!");
+            playerPoint++;
             TrueAnswer();
         }
         currQuestion = null;
