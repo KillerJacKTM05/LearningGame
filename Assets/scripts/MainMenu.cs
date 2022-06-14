@@ -12,20 +12,19 @@ public class MainMenu : MonoBehaviour
     public GameObject lobbyCanvas;
     public GameObject serverCanvas;
     public Slider volumeSlider;
+    public Toggle fullscreenToggle;
     public Dropdown qualityDropdown;
     public Dropdown resolutionDropdown;
 
     Resolution[] resolutions;
+    List<Resolution> validResolutions;
     void Start()
     {
         resolutions = Screen.resolutions;
         settingsCanvas.SetActive(false);
         lobbyCanvas.SetActive(false);
-        volumeSlider.value = SoundManager.instance.GetSource().volume;
         GetResolutions();
         GetQuality();
-        resolutionDropdown.RefreshShownValue();
-        qualityDropdown.RefreshShownValue();
         LoadSettings();
     }
 
@@ -36,7 +35,7 @@ public class MainMenu : MonoBehaviour
     }
     private void OnEnable()
     {
-        volumeSlider.onValueChanged.AddListener(delegate { changeVolume(volumeSlider.value); });
+        
     }
     public void StartGame()
     {
@@ -73,10 +72,15 @@ public class MainMenu : MonoBehaviour
     {
         if(index == 0)
         {
+            resolutionDropdown.RefreshShownValue();
+            qualityDropdown.RefreshShownValue();
+            volumeSlider.value = SoundManager.instance.GetSource().volume;
+            volumeSlider.onValueChanged.AddListener(delegate { changeVolume(volumeSlider.value); });
             settingsCanvas.SetActive(true);
         }
         else
         {
+            volumeSlider.onValueChanged.RemoveListener(delegate { changeVolume(volumeSlider.value); });
             settingsCanvas.SetActive(false);
         }
     }
@@ -84,24 +88,34 @@ public class MainMenu : MonoBehaviour
     {
         SoundManager.instance.GetSource().volume = sliderValue;
     }
-    public void SetFullscreen(bool isFullscreen)
+    public void SetFullscreen()
     {
-        Screen.fullScreen = isFullscreen;
+        Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, fullscreenToggle.isOn);
     }
     public void GetResolutions()
     {
+        string prevOption = "";
         List<string> options = new List<string>();
+        validResolutions = new List<Resolution>();
+
         for(int i = 0; i < resolutions.Length; i++)
         {
             string option = resolutions[i].width + "x" + resolutions[i].height;
             //Debug.Log("option:" + option);
-            options.Add(option);
+
+            if(prevOption != option)
+            {
+                options.Add(option);
+                validResolutions.Add(resolutions[i]);
+                prevOption = option;
+            }
+            
         }
         resolutionDropdown.AddOptions(options);
     }
     public void SetResolution(int resolutionIndex)
     {
-        Resolution resolution = resolutions[resolutionIndex];
+        Resolution resolution = validResolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
         resolutionDropdown.value = resolutionIndex;
     }

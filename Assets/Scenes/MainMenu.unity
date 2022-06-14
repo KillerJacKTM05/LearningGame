@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1552,6 +1552,7 @@ MonoBehaviour:
   lobbyCanvas: {fileID: 1561902062}
   serverCanvas: {fileID: 289481668}
   volumeSlider: {fileID: 819577463}
+  fullscreenToggle: {fileID: 2036234633}
   qualityDropdown: {fileID: 400212889}
   resolutionDropdown: {fileID: 2106278435}
 --- !u!1 &527665986
@@ -6598,7 +6599,7 @@ MonoBehaviour:
       - m_Target: {fileID: 502166469}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
         m_MethodName: SetFullscreen
-        m_Mode: 6
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

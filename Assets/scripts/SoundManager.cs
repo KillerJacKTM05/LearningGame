@@ -22,7 +22,7 @@ public class SoundManager : MonoBehaviour
     private AudioSource source;
     void Start()
     {
-        source = gameObject.GetComponent<AudioSource>();
+        GetSource();
         PlayMusic();
     }
 
@@ -64,6 +64,10 @@ public class SoundManager : MonoBehaviour
     }
     public AudioSource GetSource()
     {
+        if(source == null)
+        {
+            source = gameObject.GetComponent<AudioSource>();
+        }
         return source;
     }
 }
