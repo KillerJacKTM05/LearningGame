@@ -19383,7 +19383,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1687275270}
         m_TargetAssemblyTypeName: QuestionUIv2, Assembly-CSharp
-        m_MethodName: EndGame
+        m_MethodName: ReturnMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -23642,6 +23642,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4495615899501585213, guid: 3015647fa6fc79c4db1bdc8a9c3d4043, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4551900821266636832, guid: 3015647fa6fc79c4db1bdc8a9c3d4043, type: 3}
       propertyPath: profile
       value: 
@@ -23658,6 +23662,26 @@ PrefabInstance:
       propertyPath: settingsPanel
       value: 
       objectReference: {fileID: 370833264}
+    - target: {fileID: 4551900821266636832, guid: 3015647fa6fc79c4db1bdc8a9c3d4043, type: 3}
+      propertyPath: qualityDropdown
+      value: 
+      objectReference: {fileID: 1203595016}
+    - target: {fileID: 4551900821266636832, guid: 3015647fa6fc79c4db1bdc8a9c3d4043, type: 3}
+      propertyPath: resolutionDropdown
+      value: 
+      objectReference: {fileID: 1967185510}
+    - target: {fileID: 5999820118137202552, guid: 3015647fa6fc79c4db1bdc8a9c3d4043, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ReturnMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 6375907761504647939, guid: 3015647fa6fc79c4db1bdc8a9c3d4043, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -175
+      objectReference: {fileID: 0}
+    - target: {fileID: 7592652198617411031, guid: 3015647fa6fc79c4db1bdc8a9c3d4043, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7918715043528022149, guid: 3015647fa6fc79c4db1bdc8a9c3d4043, type: 3}
       propertyPath: sceneId
       value: 2555879473

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Mirror;
 
 public class QuestionUIv2 : NetworkBehaviour
@@ -72,6 +73,10 @@ public class QuestionUIv2 : NetworkBehaviour
         Application.Quit();
     }
 
+    public void ReturnMenu()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+    }
     public void OpenMenu(int index)
     {
         if(index == 0)                              //menu ui opened
@@ -198,7 +203,17 @@ public class QuestionUIv2 : NetworkBehaviour
 
     public void SetQuestion()
     {
-        questionText.text = currQuestion.questionText;
+        if (!currQuestion.isQuestionMultipleChoice)
+        {
+            string text = currQuestion.questionText.Replace("Newline", "\n");
+            questionText.text = text;
+        }
+        else
+        {
+            questionText.text = currQuestion.questionText;
+        }
+
+
         if (currQuestion.isQuestionMultipleChoice)
         {
             multiAnswerObject.SetActive(true);
