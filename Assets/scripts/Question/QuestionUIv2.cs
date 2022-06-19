@@ -179,7 +179,7 @@ public class QuestionUIv2 : NetworkBehaviour
         if (playerPoint == 7)
         {
             Debug.Log("Won the Game");
-            playerName.text = $"{connectionToClient.identity.GetComponent<MyNetworkPlayer>().GetDisplayName()} WON";
+            playerName.text = "Player WON!";
             gameOverObject.SetActive(true);
             canvas.SetActive(true);
             return;
